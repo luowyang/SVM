@@ -33,6 +33,12 @@ def gaussian(sigma):
 
     def gaussian_kernel(x, y):
         
-        return np.exp(np.abs(x - y) * g)
+        x_norm = np.sum(x**2, axis=1).reshape((-1, 1))
+        y_norm = np.sum(y**2, axis=1).reshape((1, -1))
+        w = -2 * np.matmul(x, y.T)
+        w += x_norm
+        w += y_norm
+        
+        return np.exp(w * g)
 
     return gaussian_kernel
